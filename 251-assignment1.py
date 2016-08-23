@@ -1,4 +1,13 @@
 import tkinter as tk
+from tkinter.simpledialog import askstring
+from tkinter.messagebox import *
+
+# from tkinter import messagebox as tkMessagebox
+
+# tkMessagebox.as
+# from tkinter import simpledialog as tkSimpleDialog
+# from  tkSimpleDialog import askstring
+
 # import ScrolledText
 
 window = tk.Tk()
@@ -19,8 +28,25 @@ def do_job():
     l.config(text='do '+str(counter))
     counter+=1
 
+def do_search_by_qu():
+    t.tag_remove('search','1.0','end')
+    target =askstring("SimpleEditor",'Search String?',initialvalue='Find a word')
+    if target:
+        countVar=tk.StringVar()
+        pos = t.search(target,'1.0', stopindex='end', count=countVar,nocase=True)
+        if pos:
+            # print ("pos is :",pos)
+            sWOrd = '{}+{}c'.format(pos, len(target))
+            t.tag_configure("search", background='green')
+            # t.tag_add("search",pos,sWOrd)
+            t.tag_add("search",pos,sWOrd)
+
 # def do_j_insert():
 #     t.insert('current', "hello,    word" )
+
+# def ClearTags(event):
+#
+#     t.tag_remove('green','1.0','end')
 
 menubar = tk.Menu(window)
 
@@ -51,6 +77,8 @@ searchmenu.add_command(label="Paste",\
                        accelerator="Ctrl+v",\
                        command = lambda: \
                                  t.event_generate('<<Paste>>'))
+searchmenu.add_command(label='Search',command=do_search_by_qu)
+
 viewmenu = tk.Menu(menubar,tearoff=0)
 menubar.add_cascade(label='View',menu=viewmenu)
 
@@ -66,6 +94,7 @@ menubar.add_cascade(label='Help',menu=helpmenu)
 
 window.config(menu=menubar)
 
+# t.bind("<Button-1>",ClearTags)
+
 window.mainloop()
 
-tk.se
