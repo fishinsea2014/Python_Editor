@@ -40,8 +40,11 @@ menubar.add_cascade(label='Help',menu=helpmenu)
 
 t = tk.Text(window,height=100, width=100)
 t.pack()
+# t.selection_get()
 
 
 window.config(menu=menubar)
 
 window.mainloop()
+
+tk.se
