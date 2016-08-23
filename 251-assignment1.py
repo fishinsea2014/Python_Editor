@@ -1,5 +1,6 @@
 import tkinter as tk
 import sys
+    
 
 def display_textarea(num):
     print(num)
@@ -7,11 +8,15 @@ def display_textarea(num):
         if(num == textButtonList[i]['text']):
             print(i)
             mywindow.grid_slaves(1, 0)[0].grid_forget()
-            textAreaList[i].grid(row=1,column=0)
+            current_textarea=textAreaList[i]
+            #global current_textarea
+            #print(current_textarea.get())
+            
+            textAreaList[i].grid(row=1,column=0,columnspan=100)
             break
 
 def create_newtext():
-    t = tk.Text(mywindow,height=50, width=100)
+    t = tk.Text(mywindow,height=50, width=150)
     textAreaList.append(t)
 
     b = tk.Button(mywindow,text="text"+str(textID), command= lambda : display_textarea(b['text']))
@@ -21,11 +26,13 @@ def create_newtext():
     textID= textID+1
     global textID
     for i in range(len(textButtonList)):
-        textButtonList[i].grid(row=0,column=0)
+        textButtonList[i].grid(row=0,column=i,sticky="W")
     #for i in range(len(textButtonList)):
     if(len(textAreaList)>1):
         mywindow.grid_slaves(1, 0)[0].grid_forget()
-    textAreaList[len(textAreaList)-1].grid(row=1,column=0)
+    textAreaList[len(textAreaList)-1].grid(row=1,column=0,columnspan=100)
+
+    return textAreaList[len(textAreaList)-1]
     
 
 def do_nothing():
@@ -45,6 +52,7 @@ def init_window(tk):
 
     filemenu.add_command(label='New',command=create_newtext)
     filemenu.add_command(label='Open',command=openFile)
+    filemenu.add_command(label='Save',command=saveFile)
     filemenu.add_separator()
     filemenu.add_command(label='Exit',command=window.destroy)
 
@@ -56,15 +64,26 @@ def openFile():
     filename = tk.filedialog.askopenfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
     print(filename)
     file=open(filename,'r')
+    t=create_newtext()
     t.insert('end',file.read())
     file.close()
+
+
+def saveFile():
+    filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
+    print(filename)
+    file=open(filename,'w')
+    file.write(current_textarea.get())
+    file.close()
     
+  
 mywindow=init_window(tk)
 textAreaList=[]
 global textAreaList
 textButtonList=[]
 global textButtonList
 textID=0
+
 
 
 mywindow.mainloop()
