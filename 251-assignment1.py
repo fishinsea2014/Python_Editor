@@ -73,10 +73,10 @@ def saveFile():
     filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
     print(filename)
     file=open(filename,'w')
-    file.write(current_textarea.get())
+    file.write(current_textarea.get("0.0","end"))
     file.close()
     
-  
+current_textarea= None  
 mywindow=init_window(tk)
 textAreaList=[]
 global textAreaList
