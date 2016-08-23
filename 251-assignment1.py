@@ -27,7 +27,7 @@ def do_job():
     global counter
     l.config(text='do '+str(counter))
     counter+=1
-
+   
 def do_search_by_qu():
     t.tag_remove('search','1.0','end')
     target =askstring("SimpleEditor",'Search String?',initialvalue='Find a word')
