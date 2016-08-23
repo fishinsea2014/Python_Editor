@@ -1,6 +1,6 @@
 import tkinter as tk
 import sys
-    
+import time
 
 def display_textarea(num):
     print(num)
@@ -18,6 +18,8 @@ def display_textarea(num):
 def create_newtext():
     t = tk.Text(mywindow,height=50, width=150)
     textAreaList.append(t)
+    current_textarea=textAreaList[len(textAreaList)-1]
+    global current_textarea
 
     b = tk.Button(mywindow,text="text"+str(textID), command= lambda : display_textarea(b['text']))
     
@@ -56,6 +58,12 @@ def init_window(tk):
     filemenu.add_separator()
     filemenu.add_command(label='Exit',command=window.destroy)
 
+    helpmenu = tk.Menu(menubar,tearoff=0)
+    menubar.add_cascade(label='Help',menu=helpmenu)
+    helpmenu.add_command(label='About',command=popupAbout)
+    helpmenu.add_command(label='T&&D',command=getTimeAndDate)
+   
+    
     window.config(menu=menubar)
 
     return window
@@ -75,6 +83,14 @@ def saveFile():
     file=open(filename,'w')
     file.write(current_textarea.get("0.0","end"))
     file.close()
+
+def popupAbout():
+    tk.messagebox.showinfo( title='About the Editor', message='hahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahaha')
+
+def getTimeAndDate():
+    var = time.strftime('%H:%M %d-%m-%Y',time.localtime(time.time()))
+    current_textarea.insert('0.0',var)
+    print()
     
 current_textarea= None  
 mywindow=init_window(tk)
