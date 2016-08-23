@@ -1,47 +1,76 @@
 import tkinter as tk
+import sys
 
-window = tk.Tk()
-window.title('myEditor');
+def display_textarea(num):
+    print(num)
+    for i in range(len(textAreaList)):
+        if(num == textButtonList[i]['text']):
+            print(i)
+            mywindow.grid_slaves(1, 0)[0].grid_forget()
+            textAreaList[i].grid(row=1,column=0)
+            break
 
-window.geometry('1000x600')
+def create_newtext():
+    t = tk.Text(mywindow,height=50, width=100)
+    textAreaList.append(t)
 
-l = tk.Label(window, bg='yellow',width=20,text='')
-l.pack()
-counter=0
+    b = tk.Button(mywindow,text="text"+str(textID), command= lambda : display_textarea(b['text']))
+    
+    textButtonList.append(b)
+    
+    textID= textID+1
+    global textID
+    for i in range(len(textButtonList)):
+        textButtonList[i].grid(row=0,column=0)
+    #for i in range(len(textButtonList)):
+    if(len(textAreaList)>1):
+        mywindow.grid_slaves(1, 0)[0].grid_forget()
+    textAreaList[len(textAreaList)-1].grid(row=1,column=0)
+    
 
-def do_job():
-    global counter
-    l.config(text='do '+str(counter))
-    counter+=1
-
-menubar = tk.Menu(window)
-
-filemenu = tk.Menu(menubar,tearoff=0)
-menubar.add_cascade(label='File',menu=filemenu)
-
-filemenu.add_command(label='New',command=do_job)
-filemenu.add_command(label='Open',command=do_job)
-filemenu.add_command(label='Save',command=do_job)
-filemenu.add_separator()
-filemenu.add_command(label='Exit',command=window.quit)
-
-searchmenu = tk.Menu(menubar,tearoff=0)
-menubar.add_cascade(label='Search',menu=searchmenu)
-
-searchmenu.add_command(label='Cut',command=do_job)
-searchmenu.add_command(label='Copy',command=do_job)
-searchmenu.add_command(label='Paste',command=do_job)
-
-viewmenu = tk.Menu(menubar,tearoff=0)
-menubar.add_cascade(label='View',menu=viewmenu)
-
-helpmenu = tk.Menu(menubar,tearoff=0)
-menubar.add_cascade(label='Help',menu=helpmenu)
-
-t = tk.Text(window,height=100, width=100)
-t.pack()
+def do_nothing():
+    return 0
+    
 
 
-window.config(menu=menubar)
+def init_window(tk):
+    window = tk.Tk()
+    window.title('myEditor');
+    window.geometry('1000x600')
 
-window.mainloop()
+    menubar = tk.Menu(window)
+
+    filemenu = tk.Menu(menubar,tearoff=0)
+    menubar.add_cascade(label='File',menu=filemenu)
+
+    filemenu.add_command(label='New',command=create_newtext)
+    filemenu.add_command(label='Open',command=openFile)
+    filemenu.add_separator()
+    filemenu.add_command(label='Exit',command=window.destroy)
+
+    window.config(menu=menubar)
+
+    return window
+
+def openFile():
+    filename = tk.filedialog.askopenfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
+    print(filename)
+    file=open(filename,'r')
+    t.insert('end',file.read())
+    file.close()
+    
+mywindow=init_window(tk)
+textAreaList=[]
+global textAreaList
+textButtonList=[]
+global textButtonList
+textID=0
+
+
+mywindow.mainloop()
+
+
+
+
+
+
