@@ -9,8 +9,8 @@ def display_textarea(num):
             print(i)
             mywindow.grid_slaves(1, 0)[0].grid_forget()
             current_textarea=textAreaList[i]
-            #global current_textarea
-            #print(current_textarea.get())
+            global current_textarea
+            print(current_textarea.get("0.0","end"))
             
             textAreaList[i].grid(row=1,column=0,columnspan=100)
             break
