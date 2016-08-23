@@ -24,7 +24,7 @@ askfloat -- get a float from the user
 
 askstring -- get a string from the user
 '''
-
+import os
 from tkinter import *
 
 class Dialog(Toplevel):
