@@ -5,28 +5,19 @@ The software is written by:
 
 This README would give a brief guide for the software.
 
-###  ###
-
-* Quick summary
-* Version
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
+### Program Instruction ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* 
 
-### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+### Works of each mumber ###
 
-### Who do I talk to? ###
+* Project leader. YI SHAN
+*
 
-* Repo owner or admin
-* Other community or team contact
+
+### Other features ###
+
+* 
