@@ -67,6 +67,7 @@ def do_search_by_qu():
             current_textarea.tag_configure("search", background='green')
             current_textarea.tag_add("search",pos,sWOrd)
 
+#Function for print
 def do_print_by_qu():
     str1=current_textarea.get("0.0","end")
     # print (str1)
