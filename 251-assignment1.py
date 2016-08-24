@@ -8,7 +8,6 @@ import win32ui
 
 
 def display_textarea(num):
-    #print(num)
     global textAreaList
     global textButtonList
     for i in range(len(textAreaList)):
@@ -25,23 +24,20 @@ def display_textarea(num):
             break
 
 def create_newtext():
-    t = tk.Text(mywindow,height=50, width=150)
     global textAreaList
     global textButtonList
-    textAreaList.append(t)
-
     global current_textarea
-    current_textarea=textAreaList[len(textAreaList)-1]
-    
     global textID
-    b = tk.Button(mywindow,text="text"+str(textID), command= lambda : display_textarea(b['text']))
     
+    t = tk.Text(mywindow,height=50, width=150)
+    textAreaList.append(t)
+    current_textarea=textAreaList[len(textAreaList)-1]
+      
+    b = tk.Button(mywindow,text="text"+str(textID), command= lambda : display_textarea(b['text']))
     textButtonList.append(b)
-
     
     textID= textID+1
-    
-    
+        
     for i in range(len(textButtonList)):
         textButtonList[i].grid(row=0,column=i,sticky="W")
     
@@ -55,15 +51,16 @@ def create_newtext():
 
 
 def do_search_by_qu():
-    t.tag_remove('search','1.0','end')
+    global current_textarea
+    current_textarea.tag_remove('search','1.0','end')
     target =askstring("SimpleEditor",'Search String?',initialvalue='Find a word')
     if target:
         countVar=tk.StringVar()
-        pos = t.search(target,'1.0', stopindex='end', count=countVar,nocase=True)
+        pos = current_textarea.search(target,'1.0', stopindex='end', count=countVar,nocase=True)
         if pos:
             sWOrd = '{}+{}c'.format(pos, len(target))
-            t.tag_configure("search", background='green')
-            t.tag_add("search",pos,sWOrd)
+            current_textarea.tag_configure("search", background='green')
+            current_textarea.tag_add("search",pos,sWOrd)
 
 
 
@@ -114,7 +111,7 @@ def init_window(tk):
 
 def openFile():
     filename = tk.filedialog.askopenfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
-    #print(filename)
+    
     if len(filename)==0:
         print("open file for reading is cancelled.")
         return
@@ -131,10 +128,6 @@ def openFile():
 
 def saveFile():
     global textAreaList
-   
-    if len(textAreaList)==0:
-        tk.messagebox.showinfo( title='About the Editor', message=' You still have no text open. Please create a text or open a file first.')
-        return
     
     filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
     if len(filename)==0:
@@ -150,20 +143,21 @@ def saveFile():
     
 
 def popupAbout():
-    tk.messagebox.showinfo( title='About the Editor', message='hahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahaha')
+    tk.messagebox.showinfo( title='About the Authors of Editor',
+                            message='This editor is made by YiShan & JasonQu, if you have any question, please e-mail huifeidepangzi@gmail.com')
 
 def getTimeAndDate():
+    global textAreaList
+   
     var = time.strftime('%H:%M %d-%m-%Y',time.localtime(time.time()))
     current_textarea.insert('0.0',var)
-    print()
     
 current_textarea= None
 textID=0
 mywindow=init_window(tk)
 textAreaList=[]
-#global textAreaList
 textButtonList=[]
-#global textButtonList
+create_newtext()
 
 
 
