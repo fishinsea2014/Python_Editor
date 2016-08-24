@@ -3,6 +3,8 @@ from tkinter.simpledialog import askstring
 from tkinter.messagebox import *
 import sys
 import time
+from odf import text, teletype
+from odf.opendocument import load
 
 
 # When you press the button of the textarea, this function will
@@ -118,18 +120,36 @@ def init_window(tk):
 #used to create a new fresh textarea
 def openFile():
     filename = tk.filedialog.askopenfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
-    
+
     if len(filename)==0:
         print("open file for reading is cancelled.")
         return
-    try:
-        file=open(filename,'r')
-        print("filename = ",file)
+    
+    filetype=filename.split(".")
+    filetype=filetype[len(filetype)-1]
+    
+    if(filetype=="txt"):  
+        try:
+            file=open(filename,'r')
+            
+            t=create_newtext()
+            t.insert('end',file.read())
+            file.close()
+        except IOError as e:
+            print(e,filename)
+    elif(filetype=="odt"):
+        textdoc = load(filename)
+        allparas = textdoc.getElementsByType(text.P)
+
         t=create_newtext()
-        t.insert('end',file.read())
-        file.close()
-    except IOError as e:
-        print(e,filename)
+        for i in range(len(allparas)):
+            t.insert('end',teletype.extractText(allparas[i]))
+    else:
+        tk.messagebox.showinfo( title='Unsupported file type',
+                        message='This is unsupported file type, now the supported file type are .txt and .odt')
+
+    
+            
 
 #save the content in the textarea into a .txt file    
 def saveFile():
@@ -137,6 +157,7 @@ def saveFile():
     global current_textarea
     
     filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
+    
     if len(filename)==0:
         print("open file for writing is cancelled.")
         return
