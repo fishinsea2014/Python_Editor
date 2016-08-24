@@ -3,17 +3,22 @@ from tkinter.simpledialog import askstring
 from tkinter.messagebox import *
 import sys
 import time
+import win32ui
 
 
 
 def display_textarea(num):
-    print(num)
+    #print(num)
+    global textAreaList
+    global textButtonList
     for i in range(len(textAreaList)):
         if(num == textButtonList[i]['text']):
             print(i)
             mywindow.grid_slaves(1, 0)[0].grid_forget()
-            current_textarea=textAreaList[i]
+
             global current_textarea
+            current_textarea=textAreaList[i]
+            
             print(current_textarea.get("0.0","end"))
             
             textAreaList[i].grid(row=1,column=0,columnspan=100)
@@ -21,19 +26,25 @@ def display_textarea(num):
 
 def create_newtext():
     t = tk.Text(mywindow,height=50, width=150)
+    global textAreaList
+    global textButtonList
     textAreaList.append(t)
-    current_textarea=textAreaList[len(textAreaList)-1]
-    global current_textarea
 
+    global current_textarea
+    current_textarea=textAreaList[len(textAreaList)-1]
+    
+    global textID
     b = tk.Button(mywindow,text="text"+str(textID), command= lambda : display_textarea(b['text']))
     
     textButtonList.append(b)
+
     
     textID= textID+1
-    global textID
+    
+    
     for i in range(len(textButtonList)):
         textButtonList[i].grid(row=0,column=i,sticky="W")
-    #for i in range(len(textButtonList)):
+    
     if(len(textAreaList)>1):
         mywindow.grid_slaves(1, 0)[0].grid_forget()
     textAreaList[len(textAreaList)-1].grid(row=1,column=0,columnspan=100)
@@ -50,10 +61,8 @@ def do_search_by_qu():
         countVar=tk.StringVar()
         pos = t.search(target,'1.0', stopindex='end', count=countVar,nocase=True)
         if pos:
-            # print ("pos is :",pos)
             sWOrd = '{}+{}c'.format(pos, len(target))
             t.tag_configure("search", background='green')
-            # t.tag_add("search",pos,sWOrd)
             t.tag_add("search",pos,sWOrd)
 
 
@@ -79,17 +88,14 @@ def init_window(tk):
 
     searchmenu = tk.Menu(menubar,tearoff=0)
     menubar.add_cascade(label='Search',menu=searchmenu)
-    # searchmenu.add_command(label='Cut',command=do_job)
     searchmenu.add_command(label="Cut",\
                            accelerator="Ctrl+x",\
                            command = lambda: \
                                      current_textarea.event_generate('<<Cut>>'))
-    # searchmenu.add_command(label='Copy',command=do_job)
     searchmenu.add_command(label="Copy",\
                            accelerator="Ctrl+c",\
                            command = lambda: \
                                      current_textarea.event_generate('<<Copy>>'))
-    # searchmenu.add_command(label='Paste',command=do_j_insert)
     searchmenu.add_command(label="Paste",\
                            accelerator="Ctrl+v",\
                            command = lambda: \
@@ -108,19 +114,40 @@ def init_window(tk):
 
 def openFile():
     filename = tk.filedialog.askopenfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
-    print(filename)
-    file=open(filename,'r')
-    t=create_newtext()
-    t.insert('end',file.read())
-    file.close()
+    #print(filename)
+    if len(filename)==0:
+        print("open file for reading is cancelled.")
+        return
+    try:
+        file=open(filename,'r')
+        print("filename = ",file)
+        t=create_newtext()
+        t.insert('end',file.read())
+        file.close()
+    except IOError as e:
+        print(e,filename)
+    
 
 
 def saveFile():
+    global textAreaList
+   
+    if len(textAreaList)==0:
+        tk.messagebox.showinfo( title='About the Editor', message=' You still have no text open. Please create a text or open a file first.')
+        return
+    
     filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
-    print(filename)
-    file=open(filename,'w')
-    file.write(current_textarea.get("0.0","end"))
-    file.close()
+    if len(filename)==0:
+        print("open file for writing is cancelled.")
+        return
+    
+    try:
+        file=open(filename,'w')
+        file.write(current_textarea.get("0.0","end"))
+        file.close()
+    except IOError as e:
+        print(e)
+    
 
 def popupAbout():
     tk.messagebox.showinfo( title='About the Editor', message='hahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahahaha')
@@ -130,13 +157,14 @@ def getTimeAndDate():
     current_textarea.insert('0.0',var)
     print()
     
-current_textarea= None  
+current_textarea= None
+textID=0
 mywindow=init_window(tk)
 textAreaList=[]
-global textAreaList
+#global textAreaList
 textButtonList=[]
-global textButtonList
-textID=0
+#global textButtonList
+
 
 
 
