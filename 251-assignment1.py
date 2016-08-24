@@ -1,15 +1,10 @@
 import tkinter as tk
 from tkinter.simpledialog import askstring
-import win32print
-import win32gui
-import win32ui
-import win32con
-
-
 from tkinter.messagebox import *
 import sys
 import time
-# import win32ui
+import win32ui
+
 
 
 def display_textarea(num):
@@ -67,36 +62,6 @@ def do_search_by_qu():
             current_textarea.tag_configure("search", background='green')
             current_textarea.tag_add("search",pos,sWOrd)
 
-def do_print_by_qu():
-    str1=current_textarea.get("0.0","end")
-    # print (str1)
-    pname= win32print.GetDefaultPrinter()
-    # print (pname)
-    pHandle=win32print.OpenPrinter(pname)
-    printinfo = win32print.GetPrinter(pHandle,2)
-
-    pDevModeObj=printinfo["pDevMode"]
-    pDevModeObj.Scale = 90
-    pDevModeObj.Orientation=win32con.DMORIENT_LANDSCAPE
-    print (pDevModeObj.Scale)
-
-
-    DC=win32gui.CreateDC('WINSPOOL',pname,pDevModeObj)
-    hDC=win32ui.CreateDCFromHandle(DC)
-
-    hDC.StartDoc("Python Editor")
-    hDC.StartPage()
-    hDC.TextOut(20, 20, str1)
-    hDC.EndPage()
-    hDC.EndDoc()
-
-    win32gui.DeleteDC(DC)
-
-
-
-
-
-
 
 
 def do_nothing():
@@ -115,7 +80,6 @@ def init_window(tk):
     filemenu.add_command(label='New',command=create_newtext)
     filemenu.add_command(label='Open',command=openFile)
     filemenu.add_command(label='Save',command=saveFile)
-    filemenu.add_command(label='Print', command=do_print_by_qu)
     filemenu.add_separator()
     filemenu.add_command(label='Exit',command=window.destroy)
 
@@ -146,7 +110,7 @@ def init_window(tk):
     return window
 
 def openFile():
-    filename = tk.filedialog.askopenfilename(initialdir ='c:')
+    filename = tk.filedialog.askopenfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
     
     if len(filename)==0:
         print("open file for reading is cancelled.")
@@ -165,7 +129,7 @@ def openFile():
 def saveFile():
     global textAreaList
     
-    filename = tk.filedialog.asksaveasfilename(initialdir ='c:')
+    filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
     if len(filename)==0:
         print("open file for writing is cancelled.")
         return
