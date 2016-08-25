@@ -36,6 +36,12 @@ This README would give a brief guide for the software.
 [ca51e3a] add comments
 [ee04d2b] finish reading .odt file function
 
+*Project member, Jason Qu
+[f6bfd3f] Redo the print function.
+[02fa83b] Finish the function of  copy , paste, cut and search.
+Support Shan to do the function of open odt files.
+[3e300be] Setup README.md for the project.
+To solve the problem of no issue, create a new repository and import all files and commits to new repository. I found that issues can not be imported, and we have to resubmit issues.
 
 
 ### Other features ###
