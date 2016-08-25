@@ -5,6 +5,7 @@ import sys
 import time
 from odf import text, teletype
 from odf.opendocument import load
+import win32print, win32gui, win32ui, win32con
 
 
 # When you press the button of the textarea, this function will
@@ -69,6 +70,27 @@ def do_search_by_qu():
             current_textarea.tag_add("search",pos,sWOrd)
 
 
+#Function for print
+def do_print_qu():
+    str1=current_textarea.get("0.0","end")
+    pname=win32print.GetDefaultPrinter()
+    pHandle=win32print.OpenPrinter(pname)
+    printinfo=win32print.GetPrinter(pHandle,2)
+
+    pDevModeObj=printinfo["pDevMode"]
+    pDevModeObj.Scale=100
+
+    DC=win32gui.CreateDC("WINSPOOL",pname,pDevModeObj)
+    hDC= win32ui.CreateDCFromHandle(DC)
+
+    hDC.StartDoc("Python Editor")
+    hDC.StartPage()
+    hDC.TextOut(20,20,str1)
+    hDC.EndPage()
+    hDC.EndDoc()
+
+    win32gui.DeleteDC(DC)
+
 #when the software start, this function will run first. it builds the window and put menus on the top of it and also put the first textarea in it
 def init_window(tk):
     #build the window
@@ -86,6 +108,7 @@ def init_window(tk):
     filemenu.add_command(label='New',command=create_newtext)
     filemenu.add_command(label='Open',command=openFile)
     filemenu.add_command(label='Save',command=saveFile)
+    filemenu.add_command(label='Print', command=do_print_qu)
     filemenu.add_separator()
     filemenu.add_command(label='Exit',command=window.destroy)
 
