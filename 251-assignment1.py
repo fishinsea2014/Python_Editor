@@ -36,6 +36,11 @@ def create_newtext():
     global current_textarea
     global textID
 
+    if(textID>=100):
+         tk.messagebox.showinfo( title='Alert',
+                        message='The number of textareas can not more than 100.')
+         return
+
     #add a new textarea to the window
     t = tk.Text(mywindow,height=50, width=150)
     textAreaList.append(t)
