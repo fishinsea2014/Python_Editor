@@ -1,11 +1,14 @@
 import tkinter as tk
+import sys
+sys.path.append("./odt")
+sys.path.append("./win32")
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import *
-import sys
+
 import time
 from odf import text, teletype
 from odf.opendocument import load
-import win32print, win32gui, win32ui, win32con
+import win32print, win32gui, win32ui
 
 
 # When you press the button of the textarea, this function will
@@ -108,7 +111,6 @@ def init_window(tk):
     filemenu.add_command(label='New',command=create_newtext)
     filemenu.add_command(label='Open',command=openFile)
     filemenu.add_command(label='Save',command=saveFile)
-    filemenu.add_command(label='Print', command=do_print_qu)
     filemenu.add_separator()
     filemenu.add_command(label='Exit',command=window.destroy)
 
@@ -127,13 +129,19 @@ def init_window(tk):
                            accelerator="Ctrl+v",\
                            command = lambda: \
                                      current_textarea.event_generate('<<Paste>>'))
+    searchmenu.add_separator()
     searchmenu.add_command(label='Search',command=do_search_by_qu)
+
+    #view menu
+    viewmenu = tk.Menu(menubar,tearoff=0)
+    menubar.add_cascade(label='View',menu=viewmenu)
+    viewmenu.add_command(label='Print', command=do_print_qu)
+    viewmenu.add_command(label='T&&D',command=getTimeAndDate)
 
     #help menu
     helpmenu = tk.Menu(menubar,tearoff=0)
     menubar.add_cascade(label='Help',menu=helpmenu)
     helpmenu.add_command(label='About',command=popupAbout)
-    helpmenu.add_command(label='T&&D',command=getTimeAndDate)
    
     
     window.config(menu=menubar)
@@ -142,7 +150,7 @@ def init_window(tk):
 
 #used to create a new fresh textarea
 def openFile():
-    filename = tk.filedialog.askopenfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
+    filename = tk.filedialog.askopenfilename(initialdir ='C:\\')
 
     if len(filename)==0:
         print("open file for reading is cancelled.")
@@ -179,7 +187,7 @@ def saveFile():
     global textAreaList
     global current_textarea
     
-    filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\Users\\shanyi\\Desktop\\251-a1-yishan-jasonqu')
+    filename = tk.filedialog.asksaveasfilename(initialdir ='C:\\')
     
     if len(filename)==0:
         print("open file for writing is cancelled.")
@@ -205,7 +213,7 @@ def getTimeAndDate():
 #used to record which textarea is current textarea    
 current_textarea= None
 #the number of textarea
-textID=0
+textID=1
 #the list of textarea
 textAreaList=[]
 #the list of button of textarea
