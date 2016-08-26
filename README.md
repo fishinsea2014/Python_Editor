@@ -21,7 +21,7 @@ This README would give a brief guide for the software.
 * press <About> button there will pop a message box which used to input the word which you want to find
 * press <T&&D> button there will insert a text of current time and date in the top of the text area 
 * Customers can open up to 100 textareas and used the button to transfer to the corresponding textarea
-
+* There are two other directories, the <odf> directory contain the library for dealing with .odt file type. The <win32> directory contain the library for dealing with the printer function
 
 
 
@@ -42,4 +42,4 @@ This README would give a brief guide for the software.
 [02fa83b] Finish the function of  copy , paste, cut and search.  
 Support Shan to do the function of open odt files.  
 [3e300be] Setup README.md for the project.  
-To solve the problem of no issue, create a new repository and import all files and commits to new repository. I found that issues can not be imported, and we have to resubmit issues.  
+To solve the problem of no issue, create a new repository and import all files and commits to new repository. I found that issues can not be imported, and we have to resubmit issues.
