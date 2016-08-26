@@ -1,6 +1,6 @@
 import tkinter as tk
 import sys
-sys.path.append("./odt")
+sys.path.append("./odf")
 sys.path.append("./win32")
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import *
