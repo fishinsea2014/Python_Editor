@@ -46,4 +46,4 @@ To solve the problem of no issue, create a new repository and import all files a
 
 
 ### Other features ###
-*Please run the program in 64-bit python environment
+* Please run the program in 64-bit python environment
